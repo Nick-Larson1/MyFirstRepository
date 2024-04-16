@@ -1,0 +1,74 @@
+---
+title: "CH_13_Demo_Code"
+author: "Dr. Luedeker"
+date: "4/2/2014"
+output: pdf_document
+---
+
+Chapter 13  is about merging tables and changing the format of tables.
+```{r}
+library(tidyverse)
+```
+
+
+## Part one: Column Bind and Row Bind
+
+```{r}
+exam.data <- tribble(~ID, ~ Exam1, ~Exam2,
+                   "654", 0.96, 0.98,
+                   "745", 0.54, 0.67,
+                   "861", 0.82, 0.76,)
+exam.data
+```
+
+```{r}
+cbind(exam.data, Exam3 = c(0.98, 0.68, 0.85))
+```
+
+```{r}
+rbind(exam.data, c(ID="798", Exam1=0.78, Exam2=0.86))
+```
+
+## Table Joins
+
+```{r}
+student.info <- tribble(~id, ~year, ~major,
+                        "654", "1", "bio",
+                        "861", "4", "chem",
+                        "777", "4", "math")
+student.info
+```
+
+Left Join
+
+```{r}
+left_join(student.info, exam.data, by=c("id"="ID"))
+```
+Right Join, inner join, full join examples.
+```{r}
+right_join(student.info, exam.data, by=c("id"="ID"))
+```
+```{r}
+full_join(student.info, exam.data, by=c("id"="ID"))
+```
+```{r}
+inner_join(student.info, exam.data, by=c("id"="ID"))
+```
+
+
+## Pivot Longer and Pivot Wider
+
+```{r}
+exam.data
+```
+
+```{r}
+long.format <- pivot_longer(data=exam.data, 2:3, names_to = "Exam", values_to="Score")
+long.format
+```
+
+
+```{r}
+pivot_wider(data=long.format, names_from=Exam, values_from=Score)
+```
+

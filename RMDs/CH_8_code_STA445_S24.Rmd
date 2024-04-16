@@ -1,0 +1,116 @@
+---
+title: "Bianca's Notes for CH 8"
+author: "Bianca Luedeker"
+date: "2024-02-27"
+output: pdf_document
+---
+
+Load pacakges
+
+## Vectors
+
+a. Using seq count by 4
+```{r}
+seq(from=1, to=4, by=1)
+```
+
+b. Make a vector of length 100 where the numbers are evenely sapced.
+```{r}
+abc<- seq(from=105, to=905, length.out=100)
+```
+
+c. The negative notation.
+```{r}
+abc <- aa[c(-8, -31:-100)]
+abc
+```
+
+
+
+## Matrices
+
+a. Construct a matirx with 6 rows and 4 columns.
+```{r}
+e <- matrix(abc, nrow=6, ncol=4, byrow=TRUE)
+e
+```
+
+b. cbind 
+```{r}
+c1 <- c(15, 7, 23)
+c2 <- c(1, 2.5, 4)
+c3 <- c(13, 16, 7)
+cbind(c1, c2, c3)
+```
+
+c. rbind
+```{r}
+rbind(c1, c2, c3)
+```
+
+d. Extact an element
+```{r}
+e[1,3]
+```
+
+e. Extract a row
+```{r}
+e[1,]
+```
+
+f. Extract a column.
+```{r}
+e[,2]
+```
+
+## Data Frames
+
+a. Construct a dataframe.
+```{r}
+my.df <- data.frame( height = c(2, 3),
+                     weight = c(4, 5))
+```
+
+b. Extract a column.
+```{r}
+my.df$height
+me.df[, 1]
+```
+
+c. Extract a value.
+```{r}
+my.df[2, 1]
+```
+## Lists
+a. Construct a list of unlike objects.
+```{r}
+my.list <- list(vec = aa, matrix = e, df = my.df)
+my.list
+```
+
+b. Extract using dollar sign notation.
+```{r}
+my.list$df
+```
+
+c. Extract using single brackets.
+```{r}
+my.list[1]
+str(my.list[1])
+```
+
+d. Extract using double brackets.  What is the difference?
+```{r}
+my.list[[1]]
+str(my.list[[1]])
+```
+The difference is that now the list is made up as numbers instead of as a vector
+
+e. lm is a list.  Show what is in lm.
+```{r}
+data('iris')
+mod <- lm(data=iris, Petal.Length~Petal.Width)
+
+lm(mod)
+```
+

@@ -1,0 +1,55 @@
+---
+title: "CH_11_Demo_Code"
+author: "Dr. Luedeker"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+Chapter 11 requires us to use the package stringr.  However, stringr is a package contained in the tidyverse suite.  Hence, we can just load tidyverse.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## Part One: Paste
+
+Paste glues character strings with stored objects, numbers, other character strings, and mathematical expressions.  It is a base R function.
+
+```{r}
+
+```
+
+## Part Two: separate
+
+separate is a function that works on a dataframe.  You give it a column that contains character strings that need to be broken into multiple columns based on some pattern.  Use can use and and or with these.
+
+```{r}
+exdata <- data.frame(mystrings = c("Hi.there.2.3.5", "78.90.65.Bye.Loser") )
+separate(exdata, mystrings, into = c("A", "B", "C", "D", "Excellent"), sep="\\.")
+
+```
+
+## Part Three: My favorite str functions
+
+Demo str_split and str_length.
+
+```{r}
+phrase <- "A.man.a.plan.a.canal.Panama"
+str_split(phrase, "\\.")[[1]] %>%
+  str_length()
+```
+
+Demo the difference between str_replace and str_replace_all.
+```{r}
+str_replace(phrase, pattern="\\.", replacement=" ")
+str_replace_all(phrase, pattern="\\.", replacement=" ")
+```
+
+Demo str_sub.
+
+```{r}
+phrases <- c("A.man.a.plan.a.canal.Panama", "I.eat.tomato.soup.everyday")
+str_sub(phrases, start=7, end=12)
+```
+
+

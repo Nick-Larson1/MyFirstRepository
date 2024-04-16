@@ -1,0 +1,148 @@
+---
+title: "CH_14_Demo_Code"
+author: "Dr. Luedeker"
+date: "4/2/2014"
+output: pdf_document
+---
+
+Chapter 14 is about making professional looking plots and arranging multiple plots on the same figure.  This is an important skill to have when writing a paper in the sciences.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)   # loading ggplot2 and dplyr
+library(patchwork)   # arranging multiple graphs into 1 figure
+library(viridis)     # The viridis color schemes
+library(latex2exp)   # For plotting math notation
+```
+
+## Part one: Multiple Plots
+
+First we will create and store some plots to work with.
+
+```{r}
+P1 <- ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
+  geom_point(size=3)  + labs(title='P1 - Iris')
+P2 <- ggplot(trees, aes(x=Height, y=Volume, color=Girth)) + 
+  geom_point()  + labs(title='P2 - Cherry Trees')
+P3 <- ggplot(iris, aes(x=Sepal.Length)) + 
+  geom_histogram(bins=30) + labs(title='P3 - Iris')
+P4 <- ggplot(iris, aes(x=Species, y=Sepal.Length, fill=Species)) + 
+  geom_boxplot() + labs(title='P4 - Iris')
+```
+
+Using the package cowplot and the funtction plot grid.
+
+```{r fig.height=6, fig.width=10}
+cowplot::plot_grid(P1, P2, P3, P4, nrow=2, ncol=3, labels=c('A','B','C'))
+```
+
+With a different number of rows and columns.  Need to adjust figure height and figure width in the code chunk options.
+
+```{r}
+
+```
+
+Using the package patchwork.  All you have to do is "add" plots.
+
+All the same size
+```{r}
+ P1 + P2 + P3 + P4
+```
+
+With groupings.  Parentheses create grouping, slash creates rows, vertical lines create columns.
+
+```{r}
+(P1 | P2) / P3 
+```
+
+```{r}
+(P1 + P2) | P3 
+```
+
+```{r}
+(P1 | (P2/P4)) + 
+  plot_annotation(
+    title = 'Composite Graph Title',
+    subtitle = 'With a compelling subtitle',
+    caption = 'Iris Data from Edgar Anderson (1935)'
+  ) 
+```
+
+```{r}
+(P1 | (P2/P4)) + 
+  plot_annotation(title = 'Composite Graph Title') +
+  plot_layout(guides = 'collect')
+```
+
+```{r}
+((P1 + theme(legend.position = 'none')) | (P2/P4)) +
+  plot_annotation(
+    title = 'Composite Graph Title',
+    subtitle = 'With a compelling subtitle',
+    caption = 'Iris Data from Edgar Anderson (1935)') +
+  plot_layout(guides = 'collect')
+```
+
+## Part 2: Color Palettes
+
+You can change colors many different ways, one is to use brewer color palettes.
+
+```{r}
+cowplot::plot_grid(
+  P1 + scale_color_brewer(palette='Dark2'),
+  P4 + scale_fill_brewer(palette='Dark2') 
+  )
+```
+
+Or use viridis
+
+```{r}
+cowplot::plot_grid(
+  P1 + scale_color_viridis_d(option='plasma'),      # _d for discrete
+  P2 + scale_color_viridis_c( option='viridis') )   # _c for continuous
+```
+
+## Part 3: Themes
+
+Themes are "added" to a plot to change the look of the plot.
+
+```{r}
+Rmisc::multiplot( cols = 2,
+  P1 + theme_bw()      + labs(title='theme_bw'), # Black and white
+  P1 + theme_minimal() + labs(title='theme_minimal'),   
+  P1 + theme_dark()    + labs(title='theme_dark'),        
+  P1 + theme_light()   + labs(title='theme_light')
+)
+```
+
+
+## Part 3: Mathematical notation 
+
+Use Latex to Expression to type in math mode on a plot.
+
+
+Simulate some data
+```{r}
+seed <- 7867
+N <- 20
+data <- data.frame(x=runif(N, 1, 10)) %>%    # create a data set to work with
+  mutate(y = 12 - 1*x + rnorm(N, sd=1))      # with columns x, y
+
+model <- lm( y ~ x, data=data)               # Fit a regression model
+data <- data %>%                             # save the regression line yhat points
+  mutate(fit=fitted(model))
+```
+
+Create the plot with mathematical notation.
+```{r}
+ggplot(data, aes(x=x)) +
+  geom_point(aes(y=y)) +
+  geom_line(aes(y=fit), color='blue') +
+  annotate('text', x=9, y=9.5, 
+           label=latex2exp::TeX('$\\hat{\\rho}$ = 0.916') ) +   # always double \\
+  labs( x=latex2exp::TeX('X-axis $\\alpha$'), 
+        y=latex2exp::TeX('Y: $\\log_{10}$(Income)'),
+        title=latex2exp::TeX('Linear Models use: $\\hat{\\beta} = (X^TX)^{-1}X^Ty$'))
+```
+
+
+

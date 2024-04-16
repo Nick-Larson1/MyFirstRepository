@@ -1,0 +1,61 @@
+---
+title: "STA_445_Assignment 8"
+author: "Your Name"
+date: "Today's Date"
+output: pdf_document
+---
+
+Load your packages here:
+```{r include=FALSE}
+```
+
+## Problem 1
+A common task is to take a set of data that has multiple categorical variables and create a table of the number of cases for each combination. An introductory statistics textbook contains a dataset summarizing student surveys from several sections of an intro class. The two variables of interest for us are `Gender` and `Year` which are the students gender and year in college.
+
+a. Download the dataset and correctly order the `Year` variable.  Change 'FirstYear' to 'Freshman' using the fct functions. Remember to erase eval=FALSE from the chunk below.
+
+```{r, eval=FALSE}
+        Survey <- read.csv('https://www.lock5stat.com/datasets3e/StudentSurvey.csv', na.strings=c('',' ')) 
+```
+
+b. Using some combination of `dplyr` functions, produce a data set with eight rows that contains the number of responses for each gender:year combination. Make sure your table orders the `Year` variable in the correct order of `First Year`, `Sophmore`, `Junior`, and then `Senior`. You might want to look at the following functions: `dplyr::count` and dplyr::drop_na` and fct functions.
+
+c. Using a pivot command, produce a table of the number of responses in the following form:
+        
+  |   Gender    |  Freshman    |  Sophomore |  Junior   |  Senior   |
+  |:-----------:|:------------:|:----------:|:---------:|:---------:|
+  |  **Female** |              |            |           |           |  
+  |  **Male**   |              |            |           |           | 
+    
+
+## Problem 2
+
+For this problem we will consider two simple data sets.  Remember to erase eval = FALSE from the code chunk below.
+
+```{r, eval=FALSE}
+    A <- tribble(
+      ~Name, ~Car,
+      'Alice', 'Ford F150',
+      'Bob',   'Tesla Model III',
+      'Charlie', 'VW Bug')
+    
+    B <- tribble(
+      ~First.Name, ~Pet,
+      'Bob',  'Cat',
+      'Charlie', 'Dog',
+      'Alice', 'Rabbit')
+```
+
+a. Squish the data frames together to generate a data set with three rows and three columns. Do two ways: first using `cbind` and then using one of the `dplyr` `join` commands.
+
+b. It turns out that Alice also has a pet guinea pig. Add another row to the `B` data set. Do this using either the base function `rbind`, or either of the `dplyr` functions `add_row` or `bind_rows`.
+
+c. Squish the `A` and `B` data sets together to generate a data set with four rows and three columns. Do this two ways: first using `cbind` and then using one of the `dplyr` `join` commands. Which was easier to program? Which is more likely to have an error.
+    
+## Problem 3
+
+From the book website, there is a .csv file of the daily maximum temperature in Flagstaff at the Pulliam Airport. The direction link is at: [https://raw.githubusercontent.com/dereksonderegger/444/master/data-raw/FlagMaxTemp.csv](https://raw.githubusercontent.com/dereksonderegger/444/master/data-raw/FlagMaxTemp.csv)
+
+a. Create a line graph that gives the daily maximum temperature for 2005. Make sure the x-axis is a date and covers the whole year.
+
+b. Create a line graph that gives the monthly average maximum temperature for 2013 - 2015. Again the x-axis should be the date and the axis spans 3 years.

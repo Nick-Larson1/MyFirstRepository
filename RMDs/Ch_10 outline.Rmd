@@ -1,0 +1,84 @@
+---
+title: "CH_10_Notes"
+author: "Dr. Luedeker"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+# Corrections about ANOVA
+
+# Chapter 10 Notes
+
+## Functions
+```{r}
+my.fun <- function(a, b=5){
+  return(a*6+b)
+}
+```
+
+
+## ifelse
+```{r}
+complicated.fun <- function(x){
+  return(ifelse(x<5, "HI", "BYE"))
+}
+```
+
+
+## Chaining if, else if, else
+
+```{r}
+x <- 1:100
+
+new.function <- function(x){
+  if(x<20){return("Less Than 20")
+  }else if(x<30){return("Between 20 and 30")
+  }else if(x<50){return("A")
+  }else{return("None of These") }
+}
+
+```
+
+----------------------------------------------------------------
+
+```{r}
+my.vec <- function(x){
+  n <- length(x)
+  res <- numeric(n)
+  for(i in 1:n){
+    if(x[i]<5){
+      res[i] <- 92
+    }else if(x[i]<7){
+      res[i] <- 1
+    }else {
+        res[i] <- -17
+      }
+  }
+  return(res)
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
