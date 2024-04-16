@@ -1,2 +1,3 @@
 # MyFirstRepository
-Yuh!
+## Nicholas Larson
+### STA 445
